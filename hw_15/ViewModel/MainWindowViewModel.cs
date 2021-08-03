@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using BankLibrary;
 using BankLibrary.BankAccount;
@@ -25,7 +26,7 @@ namespace hw_15.ViewModel
 
         private Bank Bank1;
         private int monthCount;
-        private string path = "log.txt";
+        private string path = $@"logs\log{DateTime.Now.Year}_{DateTime.Now.Month}.txt";
 
         public MainWindowViewModel()
         {
@@ -33,15 +34,18 @@ namespace hw_15.ViewModel
             FillData.Fill(Bank1);
             SelectedDepartament = Bank1.PersonDepartament;
             SelectedClient = ClientsInDepartment.First();
+            if (!Directory.Exists("logs")) Directory.CreateDirectory("logs");
+            var createLog = Task.Factory.StartNew(CreateLog);
             BankAccount.Notify += AccountActionsOnNotify;
             BankAccount.Notify += AccountActionsLogging;
         }
 
-        private void AccountActionsLogging(object sender, AccountEventArgs e)
+        private async void AccountActionsLogging(object sender, AccountEventArgs e)
         {
+            string str = $"{DateTime.Now} {e.Message}";
             using (StreamWriter sw = new StreamWriter(path, true))
             {
-                sw.WriteLine(DateTime.Now + " " + e.Message);
+                await sw.WriteLineAsync(str);
             }
         }
 
@@ -371,16 +375,51 @@ namespace hw_15.ViewModel
                 return logCommand ??
                        (logCommand = new RelayCommand(obj =>
                        {
-                           LogWindow historyWindow = new LogWindow()
+                           LogWindow historyWindow = new LogWindow
                            {
-                               DataContext = new LogViewModel(path)
+                               DataContext = new LogViewModel(),
+                               Owner = obj as Window,
+                               WindowStartupLocation = WindowStartupLocation.CenterOwner
                            };
 
-                           historyWindow.Owner = obj as Window;
-                           historyWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                            historyWindow.ShowDialog();
                        }));
             }
+        }
+
+        private void CreateLog()
+        {
+            int count = 11_000_000;
+
+            string[] files = Directory.GetFiles("logs");
+            foreach (var f in files)
+            {
+                File.Delete(f);
+            }
+
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            int maxCountinFile = 2_000_000;
+            int x = count / maxCountinFile;
+            for (int i = 0; i < x; i++)
+            {
+                string p = $@"logs\log{DateTime.Now.AddYears(-(i + 1)).Year}.txt";
+
+                using (StreamWriter sw = new StreamWriter(p, false))
+                {
+                    for (int j = 0; j < maxCountinFile; j++)
+                    {
+                        int indexI = i * maxCountinFile + j;
+                        sw.WriteLine(DateTime.Now.AddHours(-indexI) + " " + indexI);
+                    }
+                }
+            }
+
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            string elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
+            StatusBarMsg = $"Файл лога содержащий {count:N0} записей создан за {elapsedTime}!";
         }
     }
 }

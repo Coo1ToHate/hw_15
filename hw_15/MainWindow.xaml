@@ -168,8 +168,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
 
-                    <DataGrid x:Name="Data"
-                              Grid.Column="1" Grid.Row="1"
+                    <DataGrid Grid.Column="1" Grid.Row="1"
                               ItemsSource="{Binding ClientBankAccounts}"
                               SelectedItem="{Binding SelectedBankAccount}"
                               Margin="2" BorderBrush="Blue" 

@@ -108,6 +108,7 @@ namespace BankLibrary.BankAccount
             }
             else
             {
+                OnAccountChanged(new AccountEventArgs($"Со счета {Id} Пытались снять {amount} руб. Баланс {Amount} руб.", amount));
                 throw new AccountHasNoAmount();
             }
         }

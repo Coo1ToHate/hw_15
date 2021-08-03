@@ -5,14 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:hw_15.View"
         mc:Ignorable="d"
-        Title="История действий"
+        Title="{Binding Title}"
         Height="450" MinHeight="400"
         Width="800" MinWidth="600"
         Background="Beige">
     <Grid>
-        <TextBox Margin="5" Background="Azure"
-                 HorizontalScrollBarVisibility="Auto"
-                 VerticalScrollBarVisibility="Auto"
-                 Text="{Binding Log}"/>
+        <DataGrid ItemsSource="{Binding LogDataSet}"
+                  Margin="5" Background="Azure"
+                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  CanUserResizeRows="False" SelectionMode="Single"
+                  CanUserSortColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Запись" Binding="{Binding msg}"  Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
