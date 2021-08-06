@@ -11,10 +11,16 @@ namespace BankLibrary
     {
         private string _name;
 
+        public BankDepartament()
+        {
+        }
+
         public BankDepartament(string name)
         {
             Name = name;
         }
+
+        public int Id { get; set; }
 
         /// <summary>
         /// Название отдела

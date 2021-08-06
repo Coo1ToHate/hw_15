@@ -57,6 +57,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Actions\AccountActions.cs" />
+    <Compile Include="ADO\AccountAdo.cs" />
+    <Compile Include="ADO\ClientAdo.cs" />
+    <Compile Include="ADO\DepartamentAdo.cs" />
+    <Compile Include="ADO\MainAdo.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Utils\FillData.cs" />
     <Compile Include="ViewModel\AccountAddViewModel.cs" />

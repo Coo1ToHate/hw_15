@@ -168,7 +168,7 @@ namespace hw_15.ViewModel
                                        return;
                                    }
                                }
-
+                               /*
                                switch (SelectedType)
                                {
                                    case "Вклад":
@@ -183,7 +183,7 @@ namespace hw_15.ViewModel
                                    default:
                                        client.Accounts.Add(new BankRegularAccount(id, amount));
                                        break;
-                               }
+                               }*/
 
                                Window window = obj as Window;
                                window.DialogResult = true;

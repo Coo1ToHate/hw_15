@@ -8,8 +8,8 @@ using BankLibrary;
 using BankLibrary.BankAccount;
 using BankLibrary.Client;
 using BankLibrary.Event;
+using hw_15.ADO;
 using hw_15.Command;
-using hw_15.Utils;
 using hw_15.View;
 
 namespace hw_15.ViewModel
@@ -17,6 +17,7 @@ namespace hw_15.ViewModel
     public class MainWindowViewModel : ApplicationViewModel
     {
         private BankDepartament selectedDepartament;
+        private ObservableCollection<BankDepartament> departments;
         private ObservableCollection<Client> clientsInDepartment;
         private Client selectedClient;
         private ObservableCollection<BankAccount> clientBankAccounts;
@@ -29,10 +30,11 @@ namespace hw_15.ViewModel
 
         public MainWindowViewModel()
         {
+            Departments = DepartamentAdo.GetAllDepartments();
             Bank1 = new Bank("Банк");
-            FillData.Fill(Bank1);
-            SelectedDepartament = Bank1.PersonDepartament;
-            SelectedClient = ClientsInDepartment.First();
+            //FillData.Fill(Bank1);
+            //SelectedDepartament = Bank1.PersonDepartament;
+            SelectedDepartament = Departments.First();
             BankAccount.Notify += AccountActionsOnNotify;
             BankAccount.Notify += AccountActionsLogging;
         }
@@ -67,7 +69,19 @@ namespace hw_15.ViewModel
             set
             {
                 selectedDepartament = value;
-                ClientsInDepartment = selectedDepartament.Clients;
+                //ClientsInDepartment = selectedDepartament.Clients;
+                ClientsInDepartment = ClientAdo.GetClientsInDepartment(SelectedDepartament);
+                SelectedClient = ClientsInDepartment.First();
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<BankDepartament> Departments
+        {
+            get => departments;
+            set
+            {
+                departments = value;
                 OnPropertyChanged();
             }
         }
@@ -90,7 +104,8 @@ namespace hw_15.ViewModel
                 selectedClient = value;
                 if (selectedClient != null)
                 {
-                    ClientBankAccounts = selectedClient.Accounts;
+                    //ClientBankAccounts = selectedClient.Accounts;
+                    ClientBankAccounts = AccountAdo.GetAccountsClients(selectedClient);
                 }
                 OnPropertyChanged();
             }

@@ -35,6 +35,9 @@ namespace BankLibrary.Client
             }
         }
 
+        public int Id { get; set; }
+        public int DepartmentId { get; set; }
+
         /// <summary>
         /// Отдел
         /// </summary>

@@ -24,7 +24,7 @@ namespace BankLibrary.BankAccount
         {
         }
 
-        public Credit(ulong id, decimal amount, double percent, int period) : base(id, amount)
+        public Credit(decimal amount, double percent, int period) : base(amount)
         {
             Percent = percent;
             Period = period;

@@ -19,9 +19,8 @@ namespace BankLibrary.BankAccount
         {
         }
 
-        protected BankAccount(ulong id, decimal amount)
+        protected BankAccount(decimal amount)
         {
-            Id = id;
             Amount = Math.Round(amount, 5);
             FutureAmount = Amount;
         }
@@ -29,7 +28,9 @@ namespace BankLibrary.BankAccount
         /// <summary>
         /// Id счета
         /// </summary>
-        public ulong Id { get; set; }
+        public int Id { get; set; }
+
+        public int ClientId { get; set; }
 
 
         private decimal _amount;

@@ -6,7 +6,7 @@
         {
         }
 
-        public BankRegularAccount(ulong id, decimal amount) : base(id, amount)
+        public BankRegularAccount(decimal amount) : base(amount)
         {
         }
 

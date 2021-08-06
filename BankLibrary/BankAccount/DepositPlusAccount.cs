@@ -11,7 +11,7 @@ namespace BankLibrary.BankAccount
         {
         }
 
-        public DepositPlusAccount(ulong id, decimal amount, double percent) : base(id, amount, percent)
+        public DepositPlusAccount(decimal amount, double percent) : base(amount, percent)
         {
         }
 

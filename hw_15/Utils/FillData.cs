@@ -186,7 +186,7 @@ namespace hw_15.Utils
         /// </summary>
         /// <param name="bank"></param>
         public static void Fill(Bank bank)
-        {
+        {/*
             int countPerson = 15;
             List<ulong> idList = new List<ulong>();
 
@@ -281,7 +281,7 @@ namespace hw_15.Utils
                 {
                     bank.LegalDepartament.Clients[i].Accounts.Add(new Credit(idList[index++], Rnd.Next(500_000, 1_000_001), 8.0 + Rnd.NextDouble() * (16.0 - 8.0), Rnd.Next(12, 37)));
                 }
-            }
+            }*/
         }
 
         private static ulong GetId()

@@ -12,11 +12,13 @@ namespace BankLibrary.BankAccount
         /// </summary>
         public double Percent { get; set; }
 
+        public bool Capitalization { get; set; }
+
         public DepositAccount()
         {
         }
 
-        public DepositAccount(ulong id, decimal amount, double percent) : base(id, amount)
+        public DepositAccount(decimal amount, double percent) : base(amount)
         {
             Percent = percent;
         }
