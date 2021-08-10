@@ -23,14 +23,17 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="5" Text="{Binding ErrorMessage}" Foreground="Red"/>
-        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Тип:" Margin="5"/>
-        <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" ItemsSource="{Binding TypeAccount}" SelectedItem="{Binding SelectedType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Сумма:" Margin="5"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="5"/>
-        <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Срок кредита:" Margin="5" Visibility="{Binding PeriodVisibility}"/>
-        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Period, UpdateSourceTrigger=PropertyChanged}" Margin="5" Visibility="{Binding PeriodVisibility}"/>
-        <TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Процентная ставка:" Margin="5" Visibility="{Binding PercentVisibility}"/>
-        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Percent, UpdateSourceTrigger=PropertyChanged}" Margin="5" Visibility="{Binding PercentVisibility}"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Сумма:" Margin="5"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="5"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Срок кредита:" Margin="5" Visibility="{Binding PeriodVisibility}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Period, UpdateSourceTrigger=PropertyChanged}" Margin="5" Visibility="{Binding PeriodVisibility}"/>
+        <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Процентная ставка:" Margin="5" Visibility="{Binding PercentVisibility}"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Percent, UpdateSourceTrigger=PropertyChanged}" Margin="5" Visibility="{Binding PercentVisibility}"/>
+        <TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Капитализация:" Margin="5" Visibility="{Binding CapitalizationVisibility}"/>
+        <StackPanel Grid.Column="1" Grid.Row="4" Visibility="{Binding CapitalizationVisibility}">
+            <RadioButton Command="{Binding SelectCapitalizationRadioButton}" CommandParameter="False" Content="Стандартный" Margin="10 0 10 0" IsChecked="True" />
+            <RadioButton Command="{Binding SelectCapitalizationRadioButton}" CommandParameter="True" Content="С капитализацией" Margin="10 0 10 0" />
+        </StackPanel>
         <Button Grid.Column="1" Grid.Row="5" Content="Сохранить" Margin="5" Command="{Binding SaveCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
     </Grid>
 </Window>

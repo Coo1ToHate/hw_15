@@ -88,6 +88,9 @@
                                 <ColumnDefinition Width="26"/>
                                 <ColumnDefinition Width="26"/>
                                 <ColumnDefinition Width="26"/>
+                                <ColumnDefinition Width="26"/>
+                                <ColumnDefinition Width="26"/>
+                                <ColumnDefinition Width="26"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
@@ -96,10 +99,26 @@
                                 Background="AliceBlue"
                                 BorderBrush="CadetBlue"
                                 ToolTip="Открыть счет"
-                                Command="{Binding AddAccountCommand}">
+                                Command="{Binding AddRegularAccountCommand}">
                                 <Image Source="Resources/addbutton.png" Margin="1"/>
                             </Button>
                             <Button Grid.Column="1" Grid.Row="0"
+                                    Margin="0, 0,1, 0"
+                                    Background="AliceBlue"
+                                    BorderBrush="CadetBlue"
+                                    ToolTip="Открыть депозит"
+                                    Command="{Binding AddDepositAccountCommand}">
+                                <Image Source="Resources/addbutton.png" Margin="1"/>
+                            </Button>
+                            <Button Grid.Column="2" Grid.Row="0"
+                                    Margin="0, 0,1, 0"
+                                    Background="AliceBlue"
+                                    BorderBrush="CadetBlue"
+                                    ToolTip="Открыть кредит"
+                                    Command="{Binding AddCreditCommand}">
+                                <Image Source="Resources/addbutton.png" Margin="1"/>
+                            </Button>
+                            <Button Grid.Column="3" Grid.Row="0"
                                     Margin="0, 0,1, 0"
                                     Background="AliceBlue"
                                     BorderBrush="CadetBlue"
@@ -107,7 +126,7 @@
                                     Command="{Binding EditAccountCommand}">
                                 <Image Source="Resources/editbutton.png" Margin="1"/>
                             </Button>
-                            <Button Grid.Column="2" Grid.Row="0"
+                            <Button Grid.Column="4" Grid.Row="0"
                                     Margin="0, 0,1, 0"
                                     Background="AliceBlue"
                                     BorderBrush="CadetBlue"
@@ -115,7 +134,7 @@
                                     Command="{Binding DelAccountCommand}">
                                 <Image Source="Resources/delbutton.png" Margin="1"/>
                             </Button>
-                            <Button Grid.Column="3" Grid.Row="0"
+                            <Button Grid.Column="5" Grid.Row="0"
                                     Margin="0, 0,1, 0"
                                     Background="AliceBlue"
                                     BorderBrush="CadetBlue"
@@ -123,8 +142,14 @@
                                     Command="{Binding LogCommand}">
                                 <Image Source="Resources/history.png" Margin="1"/>
                             </Button>
+                            <Button Grid.Column="6" Grid.Row="0"
+                                    Margin="0, 0,1, 0"
+                                    Background="AliceBlue"
+                                    BorderBrush="CadetBlue"
+                                    ToolTip="Полный список">
+                            </Button>
 
-                            <StackPanel Grid.Column="4" Grid.Row="0" HorizontalAlignment="Right">
+                            <StackPanel Grid.Column="7" Grid.Row="0" HorizontalAlignment="Right">
                                 <Grid Height="25">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="26"/>

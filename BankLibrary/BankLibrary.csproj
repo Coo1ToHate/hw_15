@@ -41,12 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bank.cs" />
     <Compile Include="BankAccount\BankAccount.cs" />
     <Compile Include="BankAccount\BankRegularAccount.cs" />
     <Compile Include="BankAccount\Credit.cs" />
     <Compile Include="BankAccount\DepositAccount.cs" />
-    <Compile Include="BankAccount\DepositPlusAccount.cs" />
     <Compile Include="BankDepartament.cs" />
     <Compile Include="Client\Client.cs" />
     <Compile Include="Event\AccountEventArgs.cs" />

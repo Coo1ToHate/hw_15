@@ -10,33 +10,37 @@ namespace BankLibrary.BankAccount
         /// <summary>
         /// Процентная ставка
         /// </summary>
-        public double Percent { get; set; }
+        public decimal Percent { get; set; }
 
         public bool Capitalization { get; set; }
 
-        public DepositAccount()
-        {
-        }
-
-        public DepositAccount(decimal amount, double percent) : base(amount)
-        {
-            Percent = percent;
-        }
-
         public override string ToString()
         {
+            if (Capitalization)
+            {
+                return $"{Id}: Вклад+ ({Percent:N2}%) - {Amount:N5}";
+            }
             return $"{Id}: Вклад ({Percent:N2}%) - {Amount:N5}";
         }
 
         public override void SetFutureAmount(int monthCount)
         {
             decimal result = Amount;
-            decimal monthProfit = Amount * ((decimal)Percent / 12 / 100);
-            result += monthProfit * monthCount;
+            if (Capitalization)
+            {
+                for (int i = 0; i < monthCount; i++)
+                {
+                    result += result * (Percent / 12 / 100);
+                }
+            }
+            else
+            {
+                decimal monthProfit = Amount * (Percent / 12 / 100);
+                result += monthProfit * monthCount;
+            }
             FutureAmount = Math.Floor(result * (decimal)Math.Pow(10, 5)) / (decimal)Math.Pow(10, 5);
         }
 
-        public override string TypeName => "Вклад";
-
+        public override string TypeName => Capitalization ? "Вклад+" : "Вклад";
     }
 }

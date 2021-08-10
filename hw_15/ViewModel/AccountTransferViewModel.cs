@@ -4,6 +4,7 @@ using BankLibrary.BankAccount;
 using BankLibrary.Client;
 using BankLibrary.Exceptions;
 using hw_15.Command;
+using hw_15.Utils;
 
 namespace hw_15.ViewModel
 {
@@ -42,7 +43,7 @@ namespace hw_15.ViewModel
         {
             this.oldAccount = oldAccount;
             this.amountTransfer = amount;
-            Accounts = client.Accounts;
+            Accounts = ADO.GetAccountsClients(client);
             Message = $"Перевести {amount:N}";
         }
 
@@ -58,6 +59,8 @@ namespace hw_15.ViewModel
                            try
                            {
                                oldAccount.SendTo(NewAccount, amountTransfer);
+                               ADO.UpdateAccount(oldAccount);
+                               ADO.UpdateAccount(newAccount);
                            }
                            catch (AccountHasNoAmount e)
                            {

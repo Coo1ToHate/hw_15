@@ -15,16 +15,6 @@ namespace BankLibrary.BankAccount
         public delegate void AccountHandler(object sender, AccountEventArgs e);
         public static event AccountHandler Notify;
 
-        protected BankAccount()
-        {
-        }
-
-        protected BankAccount(decimal amount)
-        {
-            Amount = Math.Round(amount, 5);
-            FutureAmount = Amount;
-        }
-
         /// <summary>
         /// Id счета
         /// </summary>

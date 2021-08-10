@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using BankLibrary;
 using BankLibrary.Client;
 using hw_15.Command;
+using hw_15.Utils;
 
 namespace hw_15.ViewModel
 {
@@ -10,30 +12,17 @@ namespace hw_15.ViewModel
     {
         private Client client;
         private BankDepartament selectedDepartament;
-        private BankDepartament oldBankDepartament;
 
         private IEnumerable<BankDepartament> departaments;
-
-        public IEnumerable<BankDepartament> Departaments
-        {
-            get => departaments;
-        }
-
         private string name;
 
-        public ClientViewModel(Bank bank, Client client)
+        public ClientViewModel(Client client)
         {
             this.client = client;
-            this.oldBankDepartament = client.Departament;
-            SelectedDepartament = client.Departament;
-            this.name = client.Name;
+            Name = client.Name;
+            Departaments = ADO.GetAllDepartments();
+            if(Name != null) SelectedDepartament = Departaments.First(d => d.Id == client.DepartmentId);
 
-            departaments = new List<BankDepartament>
-            {
-                bank.PersonDepartament,
-                bank.VipBankDepartament,
-                bank.LegalDepartament
-            };
         }
 
         public string Name
@@ -42,6 +31,15 @@ namespace hw_15.ViewModel
             set
             {
                 name = value;
+                OnPropertyChanged();
+            }
+        }
+        public IEnumerable<BankDepartament> Departaments
+        {
+            get => departaments;
+            set
+            {
+                this.departaments = value;
                 OnPropertyChanged();
             }
         }
@@ -64,14 +62,8 @@ namespace hw_15.ViewModel
                 return saveCommand ??
                        (saveCommand = new RelayCommand(obj =>
                            {
-                               if (oldBankDepartament != null && oldBankDepartament != SelectedDepartament)
-                               {
-                                   oldBankDepartament.Clients.Remove(client);
-                                   SelectedDepartament.Clients.Add(client);
-                               }
-
                                client.Name = Name;
-                               client.Departament = SelectedDepartament;
+                               client.DepartmentId = SelectedDepartament.Id;
 
                                Window window = obj as Window;
                                window.DialogResult = true;
