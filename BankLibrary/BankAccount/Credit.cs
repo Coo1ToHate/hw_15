@@ -13,24 +13,12 @@ namespace BankLibrary.BankAccount
         /// <summary>
         /// Процентная ставка
         /// </summary>
-        public double Percent { get; set; }
+        public decimal Percent { get; set; }
 
         /// <summary>
         /// Срок кредита (месяц)
         /// </summary>
         public int Period { get; set; }
-
-        public Credit()
-        {
-        }
-
-        public Credit(ulong id, decimal amount, double percent, int period) : base(id, amount)
-        {
-            Percent = percent;
-            Period = period;
-            Amount += (amount * (decimal)Percent / 100) / 12 * Period;
-            FutureAmount = Amount;
-        }
 
         public override string ToString()
         {
@@ -60,7 +48,11 @@ namespace BankLibrary.BankAccount
                 Amount = 0;
             }
             OnAccountChanged(new AccountEventArgs($"Кредитный счет {Id} был пополнен на {amount} руб. Баланс {Amount} руб.", amount));
-            //Notify?.Invoke(this, new AccountEventArgs($"Кредитный счет {Id} был пополнен на {amount} руб. Баланс {Amount} руб.", amount));
+        }
+
+        public void SetAmount(decimal amount)
+        {
+            Amount = amount + (amount * Percent / 100) / 12 * Period;
         }
     }
 }

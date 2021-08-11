@@ -4,24 +4,23 @@ using hw_15.Command;
 
 namespace hw_15.ViewModel
 {
-    class AccountAddViewModel : ApplicationViewModel
+    class CreditAddViewModel : ApplicationViewModel
     {
-        private BankRegularAccount account;
+        private Credit account;
         private string amount;
-        private string period;
         private string percent;
+        private string period;
         private string errorMessage;
 
         private Visibility _periodVisibility;
         private Visibility _percentVisibility;
         private Visibility _capitalizationVisibility;
 
-
-        public AccountAddViewModel(BankRegularAccount account)
+        public CreditAddViewModel(Credit account)
         {
             this.account = account;
-            PeriodVisibility = Visibility.Hidden;
-            PercentVisibility = Visibility.Hidden;
+            PeriodVisibility = Visibility.Visible;
+            PercentVisibility = Visibility.Visible;
             CapitalizationVisibility = Visibility.Hidden;
         }
 
@@ -35,22 +34,22 @@ namespace hw_15.ViewModel
             }
         }
 
+        public string Percent
+        {
+            get => percent;
+            set
+            {
+                percent = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string Period
         {
             get => period;
             set
             {
                 period = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Percent
-        {
-            get => percent;
-            set {
-
-                percent = value;
                 OnPropertyChanged();
             }
         }
@@ -103,8 +102,7 @@ namespace hw_15.ViewModel
                 return saveCommand ??
                        (saveCommand = new RelayCommand(obj =>
                            {
-
-                               double percent = default;
+                               decimal percent = default;
                                int period = default;
 
                                if (!decimal.TryParse(Amount.Replace(" ", ""), out decimal amount) || amount < 100)
@@ -120,7 +118,7 @@ namespace hw_15.ViewModel
                                        ErrorMessage = "Введите процент!";
                                        return;
                                    }
-                                   if (!double.TryParse(Percent.Replace('.', ','), out percent))
+                                   if (!decimal.TryParse(Percent.Replace('.', ','), out percent))
                                    {
                                        ErrorMessage = "Введен неверный процент!";
                                        return;
@@ -141,7 +139,9 @@ namespace hw_15.ViewModel
                                    }
                                }
 
-                               account.Amount = amount;
+                               account.Percent = percent;
+                               account.Period = period;
+                               account.SetAmount(amount);
 
                                Window window = obj as Window;
                                window.DialogResult = true;

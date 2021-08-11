@@ -3,6 +3,7 @@ using BankLibrary.BankAccount;
 using BankLibrary.Client;
 using BankLibrary.Exceptions;
 using hw_15.Command;
+using hw_15.Utils;
 using hw_15.View;
 
 namespace hw_15.ViewModel
@@ -73,6 +74,8 @@ namespace hw_15.ViewModel
                            }
                            AccountEdit.PutAmount(amount);
 
+                           ADO.UpdateAccount(AccountEdit);
+
                            Window window = obj as Window;
                            window.DialogResult = true;
                            window.Close();
@@ -97,6 +100,7 @@ namespace hw_15.ViewModel
                                try
                                {
                                    AccountEdit.WithdrawAmount(amount);
+                                   ADO.UpdateAccount(AccountEdit);
                                    Window window = obj as Window;
                                    window.DialogResult = true;
                                    window.Close();

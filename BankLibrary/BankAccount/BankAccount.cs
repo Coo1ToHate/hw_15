@@ -15,21 +15,12 @@ namespace BankLibrary.BankAccount
         public delegate void AccountHandler(object sender, AccountEventArgs e);
         public static event AccountHandler Notify;
 
-        protected BankAccount()
-        {
-        }
-
-        protected BankAccount(ulong id, decimal amount)
-        {
-            Id = id;
-            Amount = Math.Round(amount, 5);
-            FutureAmount = Amount;
-        }
-
         /// <summary>
         /// Id счета
         /// </summary>
-        public ulong Id { get; set; }
+        public int Id { get; set; }
+
+        public int ClientId { get; set; }
 
 
         private decimal _amount;

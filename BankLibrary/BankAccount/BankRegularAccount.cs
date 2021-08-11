@@ -2,14 +2,6 @@
 {
     public class BankRegularAccount : BankAccount
     {
-        public BankRegularAccount()
-        {
-        }
-
-        public BankRegularAccount(ulong id, decimal amount) : base(id, amount)
-        {
-        }
-
         public override string ToString()
         {
             return $"{Id}: Обычный счет - {Amount:N5}";

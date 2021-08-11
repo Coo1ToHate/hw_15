@@ -58,12 +58,14 @@
     </ApplicationDefinition>
     <Compile Include="Actions\AccountActions.cs" />
     <Compile Include="Command\RelayCommand.cs" />
-    <Compile Include="Utils\FillData.cs" />
+    <Compile Include="Utils\ADO.cs" />
     <Compile Include="ViewModel\AccountAddViewModel.cs" />
     <Compile Include="ViewModel\AccountEditViewModel.cs" />
     <Compile Include="ViewModel\AccountTransferViewModel.cs" />
     <Compile Include="ViewModel\ApplicationViewModel.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
+    <Compile Include="ViewModel\CreditAddViewModel.cs" />
+    <Compile Include="ViewModel\DepositAddViewModel.cs" />
     <Compile Include="ViewModel\LogViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\AccountAddWindow.xaml.cs">
