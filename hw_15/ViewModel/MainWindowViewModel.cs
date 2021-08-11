@@ -35,11 +35,11 @@ namespace hw_15.ViewModel
             BankAccount.Notify += AccountActionsLogging;
         }
 
-        private void AccountActionsLogging(object sender, AccountEventArgs e)
+        private async void AccountActionsLogging(object sender, AccountEventArgs e)
         {
             using (StreamWriter sw = new StreamWriter(path, true))
             {
-                sw.WriteLine(DateTime.Now + " " + e.Message);
+                await sw.WriteLineAsync(DateTime.Now + " " + e.Message);
             }
         }
 
