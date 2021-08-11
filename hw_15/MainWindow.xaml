@@ -146,7 +146,8 @@
                                     Margin="0, 0,1, 0"
                                     Background="AliceBlue"
                                     BorderBrush="CadetBlue"
-                                    ToolTip="Полный список">
+                                    ToolTip="Полный список"
+                                    Command="{Binding AllDataCommand}">
                             </Button>
 
                             <StackPanel Grid.Column="7" Grid.Row="0" HorizontalAlignment="Right">

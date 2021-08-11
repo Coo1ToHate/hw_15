@@ -62,6 +62,7 @@
     <Compile Include="ViewModel\AccountAddViewModel.cs" />
     <Compile Include="ViewModel\AccountEditViewModel.cs" />
     <Compile Include="ViewModel\AccountTransferViewModel.cs" />
+    <Compile Include="ViewModel\AllDataViewModel.cs" />
     <Compile Include="ViewModel\ApplicationViewModel.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Compile Include="ViewModel\CreditAddViewModel.cs" />
@@ -76,6 +77,9 @@
     </Compile>
     <Compile Include="View\AccountTransferWindow.xaml.cs">
       <DependentUpon>AccountTransferWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AllDataWindow.xaml.cs">
+      <DependentUpon>AllDataWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ClientWindow.xaml.cs">
       <DependentUpon>ClientWindow.xaml</DependentUpon>
@@ -104,6 +108,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AccountTransferWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AllDataWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

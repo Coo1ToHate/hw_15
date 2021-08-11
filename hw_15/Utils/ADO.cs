@@ -46,7 +46,7 @@ namespace hw_15.Utils
                     }
                 }
             }
-            catch (Exception e)
+            catch (SqlException e)
             {
                 throw;
             }

@@ -149,6 +149,8 @@ namespace hw_15.ViewModel
         private RelayCommand plusMonthCommand;
         private RelayCommand resetMonthCommand;
 
+        private RelayCommand allDataCommand;
+
 
         public RelayCommand AddClientCommand
         {
@@ -416,6 +418,26 @@ namespace hw_15.ViewModel
                            historyWindow.ShowDialog();
                        }));
             }
+        }
+
+        public RelayCommand AllDataCommand
+        {
+            get => allDataCommand ??
+                   (allDataCommand = new RelayCommand(obj =>
+                   {
+                       AllDataWindow allData = new AllDataWindow()
+                       {
+                       };
+
+                       allData.Owner = obj as Window;
+                       allData.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                       allData.ShowDialog();
+
+                       if (allData.DialogResult.Value)
+                       {
+                           SelectedDepartament = Departments.First();
+                       }
+                   }));
         }
     }
 }
