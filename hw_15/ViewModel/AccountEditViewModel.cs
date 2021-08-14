@@ -74,7 +74,18 @@ namespace hw_15.ViewModel
                            }
                            AccountEdit.PutAmount(amount);
 
-                           ADO.UpdateAccount(AccountEdit);
+                           if (AccountEdit.TypeName.Equals("Кредит"))
+                           {
+                               EF.UpdateCredit(AccountEdit as Credit);
+                           }
+                           else if(AccountEdit.TypeName.Contains("Вклад"))
+                           {
+                               EF.UpdateDepositAccount(AccountEdit as DepositAccount);
+                           }
+                           else
+                           {
+                               EF.UpdateAccount(AccountEdit as BankRegularAccount);
+                           }
 
                            Window window = obj as Window;
                            window.DialogResult = true;
@@ -100,7 +111,20 @@ namespace hw_15.ViewModel
                                try
                                {
                                    AccountEdit.WithdrawAmount(amount);
-                                   ADO.UpdateAccount(AccountEdit);
+
+                                   if (AccountEdit.TypeName.Equals("Кредит"))
+                                   {
+                                       EF.UpdateCredit(AccountEdit as Credit);
+                                   }
+                                   else if (AccountEdit.TypeName.Contains("Вклад"))
+                                   {
+                                       EF.UpdateDepositAccount(AccountEdit as DepositAccount);
+                                   }
+                                   else
+                                   {
+                                       EF.UpdateAccount(AccountEdit as BankRegularAccount);
+                                   }
+
                                    Window window = obj as Window;
                                    window.DialogResult = true;
                                    window.Close();
@@ -136,8 +160,7 @@ namespace hw_15.ViewModel
                                accountTransferWindow.Owner = obj as Window;
                                accountTransferWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                                accountTransferWindow.ShowDialog();
-
-
+                               
                                Window window = obj as Window;
                                window.DialogResult = true;
                                window.Close();

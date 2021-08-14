@@ -20,7 +20,7 @@ namespace hw_15.ViewModel
         {
             this.client = client;
             Name = client.Name;
-            Departaments = ADO.GetAllDepartments();
+            Departaments = EF.GetAllDepartments();
             if(Name != null) SelectedDepartament = Departaments.First(d => d.Id == client.DepartmentId);
 
         }

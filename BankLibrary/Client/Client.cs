@@ -7,19 +7,6 @@ namespace BankLibrary.Client
 {
     public class Client : INotifyPropertyChanged
     {
-        public Client()
-        {
-        }
-
-        /// <summary>
-        /// Класс Клиент
-        /// </summary>
-        public Client(string name, BankDepartament departament)
-        {
-            Name = name;
-            Departament = departament;
-        }
-
         private string _name;
 
         /// <summary>
@@ -36,17 +23,8 @@ namespace BankLibrary.Client
         }
 
         public int Id { get; set; }
+
         public int DepartmentId { get; set; }
-
-        /// <summary>
-        /// Отдел
-        /// </summary>
-        public BankDepartament Departament { get; set; }
-
-        /// <summary>
-        /// Счета клиента
-        /// </summary>
-        public ObservableCollection<BankAccount.BankAccount> Accounts { get; set; } = new ObservableCollection<BankAccount.BankAccount>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 

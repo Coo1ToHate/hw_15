@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace BankLibrary
@@ -10,15 +9,6 @@ namespace BankLibrary
     public class BankDepartament : INotifyPropertyChanged
     {
         private string _name;
-
-        public BankDepartament()
-        {
-        }
-
-        public BankDepartament(string name)
-        {
-            Name = name;
-        }
 
         public int Id { get; set; }
 
@@ -34,11 +24,6 @@ namespace BankLibrary
                 OnPropertyChanged();
             }
         }
-
-        /// <summary>
-        /// Клиенты отдела
-        /// </summary>
-        public ObservableCollection<Client.Client> Clients { get; set; } = new ObservableCollection<Client.Client>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -29,8 +29,6 @@ namespace BankLibrary.BankAccount
         {
             decimal result = Amount;
 
-            //result -= (Amount / Period)*monthCount;
-
             for (int i = 0; i < monthCount; i++)
             {
                 result -= Amount / Period;

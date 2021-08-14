@@ -20,8 +20,13 @@ namespace hw_15.ViewModel
         private ObservableCollection<BankDepartament> departments;
         private ObservableCollection<Client> clientsInDepartment;
         private Client selectedClient;
-        private ObservableCollection<BankAccount> clientBankAccounts;
-        private BankAccount selectedBankAccount;
+        private ObservableCollection<BankRegularAccount> clientBankAccounts;
+        private ObservableCollection<DepositAccount> clientBankDepositAccounts;
+        private ObservableCollection<Credit> clientCredits;
+        private BankRegularAccount selectedBankAccount;
+        private DepositAccount selectedBankDepositAccount;
+        private Credit selectedCredit;
+
         private string statusBarMsg;
 
         private int monthCount;
@@ -29,7 +34,7 @@ namespace hw_15.ViewModel
 
         public MainWindowViewModel()
         {
-            Departments = ADO.GetAllDepartments();
+            Departments = EF.GetAllDepartments();
             SelectedDepartament = Departments.First();
             BankAccount.Notify += AccountActionsOnNotify;
             BankAccount.Notify += AccountActionsLogging;
@@ -65,7 +70,7 @@ namespace hw_15.ViewModel
             set
             {
                 selectedDepartament = value;
-                ClientsInDepartment = ADO.GetClientsInDepartment(SelectedDepartament);
+                ClientsInDepartment = EF.GetClientsInDepartment(SelectedDepartament);
                 SelectedClient = ClientsInDepartment.First();
                 OnPropertyChanged();
             }
@@ -99,13 +104,15 @@ namespace hw_15.ViewModel
                 selectedClient = value;
                 if (selectedClient != null)
                 {
-                    ClientBankAccounts = ADO.GetAccountsClients(selectedClient);
+                    ClientBankAccounts = EF.GetAccountsClients(selectedClient);
+                    ClientBankDepositAccounts = EF.GetDepositAccountsClients(selectedClient);
+                    ClientCredits = EF.GetCreditsClients(selectedClient);
                 }
                 OnPropertyChanged();
             }
         }
 
-        public ObservableCollection<BankAccount> ClientBankAccounts
+        public ObservableCollection<BankRegularAccount> ClientBankAccounts
         {
             get => clientBankAccounts;
             set
@@ -118,6 +125,35 @@ namespace hw_15.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        public ObservableCollection<DepositAccount> ClientBankDepositAccounts
+        {
+            get => clientBankDepositAccounts;
+            set
+            {
+                clientBankDepositAccounts = value;
+                foreach (var a in clientBankDepositAccounts)
+                {
+                    a.SetFutureAmount(MonthCount);
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Credit> ClientCredits
+        {
+            get => clientCredits;
+            set
+            {
+                clientCredits = value;
+                foreach (var a in clientCredits)
+                {
+                    a.SetFutureAmount(MonthCount);
+                }
+                OnPropertyChanged();
+            }
+        }
+
         public int MonthCount
         {
             get => monthCount;
@@ -128,12 +164,23 @@ namespace hw_15.ViewModel
             }
         }
 
-        public BankAccount SelectedBankAccount
+        public BankRegularAccount SelectedBankAccount
         {
             get => selectedBankAccount;
             set => selectedBankAccount = value;
         }
 
+        public DepositAccount SelectedBankDepositAccount
+        {
+            get => selectedBankDepositAccount;
+            set => selectedBankDepositAccount = value;
+        }
+
+        public Credit SelectedCredit
+        {
+            get => selectedCredit;
+            set => selectedCredit = value;
+        }
 
         private RelayCommand addClientCommand;
         private RelayCommand editClientCommand;
@@ -142,7 +189,11 @@ namespace hw_15.ViewModel
         private RelayCommand addDepositAccountCommand;
         private RelayCommand addCreditCommand;
         private RelayCommand editAccountCommand;
+        private RelayCommand editDepositAccountCommand;
+        private RelayCommand editCreditCommand;
         private RelayCommand delAccountCommand;
+        private RelayCommand delDepositAccountCommand;
+        private RelayCommand delCreditCommand;
         private RelayCommand logCommand;
 
         private RelayCommand minusMonthCommand;
@@ -170,8 +221,8 @@ namespace hw_15.ViewModel
 
                            if (clientWindow.DialogResult.Value)
                            {
-                               ADO.InsertClient(newClient);
-                               ClientsInDepartment = ADO.GetClientsInDepartment(SelectedDepartament);
+                               EF.InsertClient(newClient);
+                               ClientsInDepartment = EF.GetClientsInDepartment(SelectedDepartament);
                            }
                        }));
 
@@ -198,8 +249,8 @@ namespace hw_15.ViewModel
 
                                if (clientWindow.DialogResult.Value)
                                {
-                                   ADO.UpdateClient(updatedClient);
-                                   ClientsInDepartment = ADO.GetClientsInDepartment(SelectedDepartament);
+                                   EF.UpdateClient(updatedClient);
+                                   ClientsInDepartment = EF.GetClientsInDepartment(SelectedDepartament);
                                }
                            },
                            obj => SelectedClient != null));
@@ -214,8 +265,8 @@ namespace hw_15.ViewModel
                 return delClientCommand ??
                        (delClientCommand = new RelayCommand(obj =>
                            {
-                               ADO.DeleteClient(SelectedClient);
-                               ClientsInDepartment = ADO.GetClientsInDepartment(SelectedDepartament);
+                               EF.DeleteClient(SelectedClient);
+                               ClientsInDepartment = EF.GetClientsInDepartment(SelectedDepartament);
                                SelectedClient = ClientsInDepartment.First();
                            },
                            obj => SelectedClient != null));
@@ -243,8 +294,10 @@ namespace hw_15.ViewModel
 
                                if (accountAddWindow.DialogResult.Value)
                                {
-                                   ADO.InsertRegularAccount(account);
-                                   ClientBankAccounts = ADO.GetAccountsClients(selectedClient);
+                                   EF.InsertAccount(account);
+                                   ClientBankAccounts = EF.GetAccountsClients(selectedClient);
+                                   ClientBankDepositAccounts = EF.GetDepositAccountsClients(selectedClient);
+                                   ClientCredits = EF.GetCreditsClients(selectedClient);
                                }
                            },
                            obj => SelectedClient != null));
@@ -272,8 +325,10 @@ namespace hw_15.ViewModel
 
                                if (accountAddWindow.DialogResult.Value)
                                {
-                                   ADO.InsertDepositAccount(account);
-                                   ClientBankAccounts = ADO.GetAccountsClients(selectedClient);
+                                   EF.InsertDepositAccount(account);
+                                   ClientBankAccounts = EF.GetAccountsClients(selectedClient);
+                                   ClientBankDepositAccounts = EF.GetDepositAccountsClients(selectedClient);
+                                   ClientCredits = EF.GetCreditsClients(selectedClient);
                                }
                            },
                            obj => SelectedClient != null));
@@ -302,8 +357,10 @@ namespace hw_15.ViewModel
 
                                if (accountAddWindow.DialogResult.Value)
                                {
-                                   ADO.InsertCredit(account);
-                                   ClientBankAccounts = ADO.GetAccountsClients(selectedClient);
+                                   EF.InsertCredit(account);
+                                   ClientBankAccounts = EF.GetAccountsClients(selectedClient);
+                                   ClientBankDepositAccounts = EF.GetDepositAccountsClients(selectedClient);
+                                   ClientCredits = EF.GetCreditsClients(selectedClient);
                                }
                            },
                            obj => SelectedClient != null));
@@ -329,11 +386,64 @@ namespace hw_15.ViewModel
 
                                if (accountEditWindow.DialogResult.Value)
                                {
-                                   ClientBankAccounts = ADO.GetAccountsClients(selectedClient);
+                                   ClientBankAccounts = EF.GetAccountsClients(selectedClient);
+                                   ClientBankDepositAccounts = EF.GetDepositAccountsClients(selectedClient);
+                                   ClientCredits = EF.GetCreditsClients(selectedClient);
                                }
                            },
                            obj => SelectedBankAccount != null));
             }
+        }
+
+        public RelayCommand EditDepositAccountCommand
+        {
+            get
+            {
+                return editDepositAccountCommand ??
+                       (editDepositAccountCommand = new RelayCommand(obj =>
+                           {
+                               AccountEditWindow accountEditWindow = new AccountEditWindow()
+                               {
+                                   DataContext = new AccountEditViewModel(SelectedClient, SelectedBankDepositAccount)
+                               };
+
+                               accountEditWindow.Owner = obj as Window;
+                               accountEditWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                               accountEditWindow.ShowDialog();
+
+                               if (accountEditWindow.DialogResult.Value)
+                               {
+                                   ClientBankAccounts = EF.GetAccountsClients(selectedClient);
+                                   ClientBankDepositAccounts = EF.GetDepositAccountsClients(selectedClient);
+                                   ClientCredits = EF.GetCreditsClients(selectedClient);
+                               }
+                           },
+                           obj => SelectedBankDepositAccount != null));
+            }
+        }
+
+        public RelayCommand EditCreditCommand
+        {
+            get { return editCreditCommand ??
+                         (editCreditCommand = new RelayCommand(obj =>
+                             {
+                                 AccountEditWindow accountEditWindow = new AccountEditWindow()
+                                 {
+                                     DataContext = new AccountEditViewModel(SelectedClient, SelectedCredit)
+                                 };
+
+                                 accountEditWindow.Owner = obj as Window;
+                                 accountEditWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                                 accountEditWindow.ShowDialog();
+
+                                 if (accountEditWindow.DialogResult.Value)
+                                 {
+                                     ClientBankAccounts = EF.GetAccountsClients(selectedClient);
+                                     ClientBankDepositAccounts = EF.GetDepositAccountsClients(selectedClient);
+                                     ClientCredits = EF.GetCreditsClients(selectedClient);
+                                 }
+                             },
+                             obj => SelectedCredit != null)); }
         }
 
         public RelayCommand DelAccountCommand
@@ -343,11 +453,43 @@ namespace hw_15.ViewModel
                 return delAccountCommand ??
                        (delAccountCommand = new RelayCommand(obj =>
                            {
-                               ADO.DeleteAccount(selectedBankAccount);
-                               ClientBankAccounts = ADO.GetAccountsClients(selectedClient);
+                               EF.DeleteAccount(SelectedBankAccount);
+                               ClientBankAccounts = EF.GetAccountsClients(selectedClient);
+                               ClientBankDepositAccounts = EF.GetDepositAccountsClients(selectedClient);
+                               ClientCredits = EF.GetCreditsClients(selectedClient);
                            },
                            obj => SelectedBankAccount != null));
             }
+        }
+
+        public RelayCommand DelDepositAccountCommand
+        {
+            get
+            {
+                return delDepositAccountCommand ??
+                       (delDepositAccountCommand = new RelayCommand(obj =>
+                           {
+                               EF.DeleteDepositAccount(SelectedBankDepositAccount);
+                               ClientBankAccounts = EF.GetAccountsClients(selectedClient);
+                               ClientBankDepositAccounts = EF.GetDepositAccountsClients(selectedClient);
+                               ClientCredits = EF.GetCreditsClients(selectedClient);
+                           },
+                           obj => SelectedBankDepositAccount != null));
+
+            }
+        }
+
+        public RelayCommand DelCreditCommand
+        {
+            get => delCreditCommand ??
+                   (delCreditCommand = new RelayCommand(obj =>
+                       {
+                           EF.DeleteCredit(SelectedCredit);
+                           ClientBankAccounts = EF.GetAccountsClients(selectedClient);
+                           ClientBankDepositAccounts = EF.GetDepositAccountsClients(selectedClient);
+                           ClientCredits = EF.GetCreditsClients(selectedClient);
+                       },
+                       obj => SelectedCredit != null));
         }
 
         public RelayCommand MinusMonthCommand
@@ -360,6 +502,14 @@ namespace hw_15.ViewModel
                            MonthCount--;
                            if (MonthCount < 0) MonthCount = 0;
                            foreach (var a in ClientBankAccounts)
+                           {
+                               a.SetFutureAmount(MonthCount);
+                           }
+                           foreach (var a in ClientBankDepositAccounts)
+                           {
+                               a.SetFutureAmount(MonthCount);
+                           }
+                           foreach (var a in ClientCredits)
                            {
                                a.SetFutureAmount(MonthCount);
                            }
@@ -379,6 +529,14 @@ namespace hw_15.ViewModel
                            {
                                a.SetFutureAmount(MonthCount);
                            }
+                           foreach (var a in ClientBankDepositAccounts)
+                           {
+                               a.SetFutureAmount(MonthCount);
+                           }
+                           foreach (var a in ClientCredits)
+                           {
+                               a.SetFutureAmount(MonthCount);
+                           }
                        }));
             }
         }
@@ -392,6 +550,14 @@ namespace hw_15.ViewModel
                        {
                            MonthCount = 0;
                            foreach (var a in ClientBankAccounts)
+                           {
+                               a.SetFutureAmount(MonthCount);
+                           }
+                           foreach (var a in ClientBankDepositAccounts)
+                           {
+                               a.SetFutureAmount(MonthCount);
+                           }
+                           foreach (var a in ClientCredits)
                            {
                                a.SetFutureAmount(MonthCount);
                            }

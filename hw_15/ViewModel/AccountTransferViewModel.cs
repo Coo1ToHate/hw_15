@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using BankLibrary.BankAccount;
 using BankLibrary.Client;
@@ -43,7 +44,14 @@ namespace hw_15.ViewModel
         {
             this.oldAccount = oldAccount;
             this.amountTransfer = amount;
-            Accounts = ADO.GetAccountsClients(client);
+
+            List<BankAccount> temp = new List<BankAccount>();
+            temp.AddRange(EF.GetAccountsClients(client));
+            temp.AddRange(EF.GetDepositAccountsClients(client));
+            temp.AddRange(EF.GetCreditsClients(client));
+
+            Accounts = temp;
+
             Message = $"Перевести {amount:N}";
         }
 
@@ -59,13 +67,38 @@ namespace hw_15.ViewModel
                            try
                            {
                                oldAccount.SendTo(NewAccount, amountTransfer);
-                               ADO.UpdateAccount(oldAccount);
-                               ADO.UpdateAccount(newAccount);
+
+                               if (oldAccount.TypeName.Equals("Кредит"))
+                               {
+                                   EF.UpdateCredit(oldAccount as Credit);
+                               }
+                               else if (oldAccount.TypeName.Contains("Вклад"))
+                               {
+                                   EF.UpdateDepositAccount(oldAccount as DepositAccount);
+                               }
+                               else
+                               {
+                                   EF.UpdateAccount(oldAccount as BankRegularAccount);
+                               }
+
+                               if (newAccount.TypeName.Equals("Кредит"))
+                               {
+                                   EF.UpdateCredit(newAccount as Credit);
+                               }
+                               else if (newAccount.TypeName.Contains("Вклад"))
+                               {
+                                   EF.UpdateDepositAccount(newAccount as DepositAccount);
+                               }
+                               else
+                               {
+                                   EF.UpdateAccount(newAccount as BankRegularAccount);
+                               }
                            }
                            catch (AccountHasNoAmount e)
                            {
                                MessageBox.Show($"{e.Message}\nНельзя перевести больше {oldAccount.Amount}!");
                            }
+
                            Window window = obj as Window;
                            window.DialogResult = true;
                            window.Close();
