@@ -8,179 +8,120 @@ namespace hw_15.Utils
 {
     class EF : IDB
     {
+        private readonly BankContext _context;
+
+        public EF()
+        {
+            _context = new BankContext();
+        }
+
         #region departament
 
-        public ObservableCollection<BankDepartament> GetAllDepartments()
-        {
-            using (var context = new BankContext())
-            {
-                return new ObservableCollection<BankDepartament>(context.Departments);
-            }
-        }
+        public ObservableCollection<BankDepartament> GetAllDepartments() =>
+            new ObservableCollection<BankDepartament>(_context.Departments);
 
-        public BankDepartament SelectDepartament(int id)
-        {
-            using (var context = new BankContext())
-            {
-                return context.Departments.FirstOrDefault(d => d.Id == id);
-            }
-        }
+        public BankDepartament SelectDepartament(int id) =>
+            _context.Departments.FirstOrDefault(d => d.Id == id);
 
         #endregion
 
         #region client
 
-        public ObservableCollection<Client> GetClientsInDepartment(BankDepartament department)
-        {
-            using (var context = new BankContext())
-            {
-                return new ObservableCollection<Client>(context.Clients.Where(c => c.DepartmentId == department.Id));
-            }
-        }
+        public ObservableCollection<Client> GetClientsInDepartment(BankDepartament department) =>
+            new ObservableCollection<Client>(_context.Clients.Where(c => c.DepartmentId == department.Id));
 
         public void InsertClient(Client client)
         {
-            using (var context = new BankContext())
-            {
-                context.Clients.Add(client);
-                context.SaveChanges();
-            }
+            _context.Clients.Add(client);
+            _context.SaveChanges();
         }
 
         public void UpdateClient(Client client)
         {
-            using (var context = new BankContext())
-            {
-                var clientTemp = context.Clients.FirstOrDefault(c => c.Id == client.Id);
-                clientTemp.Name = client.Name;
-                clientTemp.DepartmentId = client.DepartmentId;
-                context.SaveChanges();
-            }
+            var clientTemp = _context.Clients.FirstOrDefault(c => c.Id == client.Id);
+            clientTemp.Name = client.Name;
+            clientTemp.DepartmentId = client.DepartmentId;
+            _context.SaveChanges();
         }
 
         public void DeleteClient(Client client)
         {
-            using (var context = new BankContext())
-            {
-                context.Clients.Attach(client);
-                context.Clients.Remove(client);
-                context.SaveChanges();
-            }
+            _context.Clients.Attach(client);
+            _context.Clients.Remove(client);
+            _context.SaveChanges();
         }
 
         #endregion
 
         #region account
 
-        public ObservableCollection<BankRegularAccount> GetAccountsClients(Client client)
-        {
-            using (var context = new BankContext())
-            {
-                return new ObservableCollection<BankRegularAccount>(context.BankRegularAccounts.Where(a => a.ClientId == client.Id));
-            }
-        }
+        public ObservableCollection<BankRegularAccount> GetAccountsClients(Client client) =>
+            new ObservableCollection<BankRegularAccount>(_context.BankRegularAccounts.Where(a => a.ClientId == client.Id));
 
-        public ObservableCollection<DepositAccount> GetDepositAccountsClients(Client client)
-        {
-            using (var context = new BankContext())
-            {
-                return new ObservableCollection<DepositAccount>(context.DepositAccounts.Where(a => a.ClientId == client.Id));
-            }
-        }
+        public ObservableCollection<DepositAccount> GetDepositAccountsClients(Client client) =>
+            new ObservableCollection<DepositAccount>(_context.DepositAccounts.Where(a => a.ClientId == client.Id));
 
-        public ObservableCollection<Credit> GetCreditsClients(Client client)
-        {
-            using (var context = new BankContext())
-            {
-                return new ObservableCollection<Credit>(context.Credits.Where(a => a.ClientId == client.Id));
-            }
-        }
+        public ObservableCollection<Credit> GetCreditsClients(Client client) =>
+            new ObservableCollection<Credit>(_context.Credits.Where(a => a.ClientId == client.Id));
 
         public void InsertAccount(BankRegularAccount account)
         {
-            using (var context = new BankContext())
-            {
-                context.BankRegularAccounts.Add(account);
-                context.SaveChanges();
-            }
+            _context.BankRegularAccounts.Add(account);
+            _context.SaveChanges();
         }
 
         public void InsertDepositAccount(DepositAccount account)
         {
-            using (var context = new BankContext())
-            {
-                context.DepositAccounts.Add(account);
-                context.SaveChanges();
-            }
+            _context.DepositAccounts.Add(account);
+            _context.SaveChanges();
         }
 
         public void InsertCredit(Credit account)
         {
-            using (var context = new BankContext())
-            {
-                context.Credits.Add(account);
-                context.SaveChanges();
-            }
+            _context.Credits.Add(account);
+            _context.SaveChanges();
         }
 
         public void DeleteAccount(BankRegularAccount account)
         {
-            using (var context = new BankContext())
-            {
-                context.BankRegularAccounts.Attach(account);
-                context.BankRegularAccounts.Remove(account);
-                context.SaveChanges();
-            }
+            _context.BankRegularAccounts.Attach(account);
+            _context.BankRegularAccounts.Remove(account);
+            _context.SaveChanges();
         }
 
         public void DeleteDepositAccount(DepositAccount account)
         {
-            using (var context = new BankContext())
-            {
-                context.DepositAccounts.Attach(account);
-                context.DepositAccounts.Remove(account);
-                context.SaveChanges();
-            }
+            _context.DepositAccounts.Attach(account);
+            _context.DepositAccounts.Remove(account);
+            _context.SaveChanges();
         }
 
         public void DeleteCredit(Credit account)
         {
-            using (var context = new BankContext())
-            {
-                context.Credits.Attach(account);
-                context.Credits.Remove(account);
-                context.SaveChanges();
-            }
+            _context.Credits.Attach(account);
+            _context.Credits.Remove(account);
+            _context.SaveChanges();
         }
 
         public void UpdateAccount(BankRegularAccount account)
         {
-            using (var context = new BankContext())
-            {
-                var accTemp = context.BankRegularAccounts.FirstOrDefault(a => a.Id == account.Id);
-                accTemp.Amount = account.Amount;
-                context.SaveChanges();
-            }
+            var accTemp = _context.BankRegularAccounts.FirstOrDefault(a => a.Id == account.Id);
+            accTemp.Amount = account.Amount;
+            _context.SaveChanges();
         }
 
         public void UpdateDepositAccount(DepositAccount account)
         {
-            using (var context = new BankContext())
-            {
-                var accTemp = context.DepositAccounts.FirstOrDefault(a => a.Id == account.Id);
-                accTemp.Amount = account.Amount;
-                context.SaveChanges();
-            }
+            var accTemp = _context.DepositAccounts.FirstOrDefault(a => a.Id == account.Id);
+            accTemp.Amount = account.Amount;
+            _context.SaveChanges();
         }
 
         public void UpdateCredit(Credit account)
         {
-            using (var context = new BankContext())
-            {
-                var accTemp = context.Credits.FirstOrDefault(a => a.Id == account.Id);
-                accTemp.Amount = account.Amount;
-                context.SaveChanges();
-            }
+            var accTemp = _context.Credits.FirstOrDefault(a => a.Id == account.Id);
+            accTemp.Amount = account.Amount;
+            _context.SaveChanges();
         }
 
         #endregion
