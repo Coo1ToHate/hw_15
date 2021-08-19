@@ -10,6 +10,8 @@ namespace hw_15.ViewModel
 {
     class AccountEditViewModel : ApplicationViewModel
     {
+        private EF eF;
+
         private Client client;
         private BankAccount accountEdit;
         private string amountAdd;
@@ -17,6 +19,7 @@ namespace hw_15.ViewModel
 
         public AccountEditViewModel(Client client, BankAccount account)
         {
+            eF = new EF();
             this.client = client;
             AccountEdit = account;
         }
@@ -76,15 +79,15 @@ namespace hw_15.ViewModel
 
                            if (AccountEdit.TypeName.Equals("Кредит"))
                            {
-                               EF.UpdateCredit(AccountEdit as Credit);
+                               eF.UpdateCredit(AccountEdit as Credit);
                            }
                            else if(AccountEdit.TypeName.Contains("Вклад"))
                            {
-                               EF.UpdateDepositAccount(AccountEdit as DepositAccount);
+                               eF.UpdateDepositAccount(AccountEdit as DepositAccount);
                            }
                            else
                            {
-                               EF.UpdateAccount(AccountEdit as BankRegularAccount);
+                               eF.UpdateAccount(AccountEdit as BankRegularAccount);
                            }
 
                            Window window = obj as Window;
@@ -114,15 +117,15 @@ namespace hw_15.ViewModel
 
                                    if (AccountEdit.TypeName.Equals("Кредит"))
                                    {
-                                       EF.UpdateCredit(AccountEdit as Credit);
+                                       eF.UpdateCredit(AccountEdit as Credit);
                                    }
                                    else if (AccountEdit.TypeName.Contains("Вклад"))
                                    {
-                                       EF.UpdateDepositAccount(AccountEdit as DepositAccount);
+                                       eF.UpdateDepositAccount(AccountEdit as DepositAccount);
                                    }
                                    else
                                    {
-                                       EF.UpdateAccount(AccountEdit as BankRegularAccount);
+                                       eF.UpdateAccount(AccountEdit as BankRegularAccount);
                                    }
 
                                    Window window = obj as Window;

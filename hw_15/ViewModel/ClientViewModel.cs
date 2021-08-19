@@ -10,6 +10,8 @@ namespace hw_15.ViewModel
 {
     class ClientViewModel : ApplicationViewModel
     {
+        private EF eF;
+
         private Client client;
         private BankDepartament selectedDepartament;
 
@@ -18,9 +20,10 @@ namespace hw_15.ViewModel
 
         public ClientViewModel(Client client)
         {
+            eF = new EF();
             this.client = client;
             Name = client.Name;
-            Departaments = EF.GetAllDepartments();
+            Departaments = eF.GetAllDepartments();
             if(Name != null) SelectedDepartament = Departaments.First(d => d.Id == client.DepartmentId);
 
         }

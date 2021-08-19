@@ -11,6 +11,8 @@ namespace hw_15.ViewModel
 {
     class AccountTransferViewModel : ApplicationViewModel
     {
+        private EF eF;
+
         private int amountTransfer;
         private BankAccount oldAccount;
         private IEnumerable<BankAccount> accounts;
@@ -42,13 +44,15 @@ namespace hw_15.ViewModel
 
         public AccountTransferViewModel(Client client, BankAccount oldAccount, int amount)
         {
+            eF = new EF();
+
             this.oldAccount = oldAccount;
             this.amountTransfer = amount;
 
             List<BankAccount> temp = new List<BankAccount>();
-            temp.AddRange(EF.GetAccountsClients(client));
-            temp.AddRange(EF.GetDepositAccountsClients(client));
-            temp.AddRange(EF.GetCreditsClients(client));
+            temp.AddRange(eF.GetAccountsClients(client));
+            temp.AddRange(eF.GetDepositAccountsClients(client));
+            temp.AddRange(eF.GetCreditsClients(client));
 
             Accounts = temp;
 
@@ -70,28 +74,28 @@ namespace hw_15.ViewModel
 
                                if (oldAccount.TypeName.Equals("Кредит"))
                                {
-                                   EF.UpdateCredit(oldAccount as Credit);
+                                   eF.UpdateCredit(oldAccount as Credit);
                                }
                                else if (oldAccount.TypeName.Contains("Вклад"))
                                {
-                                   EF.UpdateDepositAccount(oldAccount as DepositAccount);
+                                   eF.UpdateDepositAccount(oldAccount as DepositAccount);
                                }
                                else
                                {
-                                   EF.UpdateAccount(oldAccount as BankRegularAccount);
+                                   eF.UpdateAccount(oldAccount as BankRegularAccount);
                                }
 
                                if (newAccount.TypeName.Equals("Кредит"))
                                {
-                                   EF.UpdateCredit(newAccount as Credit);
+                                   eF.UpdateCredit(newAccount as Credit);
                                }
                                else if (newAccount.TypeName.Contains("Вклад"))
                                {
-                                   EF.UpdateDepositAccount(newAccount as DepositAccount);
+                                   eF.UpdateDepositAccount(newAccount as DepositAccount);
                                }
                                else
                                {
-                                   EF.UpdateAccount(newAccount as BankRegularAccount);
+                                   eF.UpdateAccount(newAccount as BankRegularAccount);
                                }
                            }
                            catch (AccountHasNoAmount e)

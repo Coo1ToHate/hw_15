@@ -6,11 +6,11 @@ using BankLibrary.Client;
 
 namespace hw_15.Utils
 {
-    class EF
+    class EF : IDB
     {
         #region departament
 
-        public static ObservableCollection<BankDepartament> GetAllDepartments()
+        public ObservableCollection<BankDepartament> GetAllDepartments()
         {
             using (var context = new BankContext())
             {
@@ -18,7 +18,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static BankDepartament SelectDepartament(int id)
+        public BankDepartament SelectDepartament(int id)
         {
             using (var context = new BankContext())
             {
@@ -30,7 +30,7 @@ namespace hw_15.Utils
 
         #region client
 
-        public static ObservableCollection<Client> GetClientsInDepartment(BankDepartament department)
+        public ObservableCollection<Client> GetClientsInDepartment(BankDepartament department)
         {
             using (var context = new BankContext())
             {
@@ -38,7 +38,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static void InsertClient(Client client)
+        public void InsertClient(Client client)
         {
             using (var context = new BankContext())
             {
@@ -47,7 +47,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static void UpdateClient(Client client)
+        public void UpdateClient(Client client)
         {
             using (var context = new BankContext())
             {
@@ -58,7 +58,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static void DeleteClient(Client client)
+        public void DeleteClient(Client client)
         {
             using (var context = new BankContext())
             {
@@ -72,7 +72,7 @@ namespace hw_15.Utils
 
         #region account
 
-        public static ObservableCollection<BankRegularAccount> GetAccountsClients(Client client)
+        public ObservableCollection<BankRegularAccount> GetAccountsClients(Client client)
         {
             using (var context = new BankContext())
             {
@@ -80,7 +80,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static ObservableCollection<DepositAccount> GetDepositAccountsClients(Client client)
+        public ObservableCollection<DepositAccount> GetDepositAccountsClients(Client client)
         {
             using (var context = new BankContext())
             {
@@ -88,7 +88,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static ObservableCollection<Credit> GetCreditsClients(Client client)
+        public ObservableCollection<Credit> GetCreditsClients(Client client)
         {
             using (var context = new BankContext())
             {
@@ -96,7 +96,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static void InsertAccount(BankRegularAccount account)
+        public void InsertAccount(BankRegularAccount account)
         {
             using (var context = new BankContext())
             {
@@ -105,7 +105,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static void InsertDepositAccount(DepositAccount account)
+        public void InsertDepositAccount(DepositAccount account)
         {
             using (var context = new BankContext())
             {
@@ -114,7 +114,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static void InsertCredit(Credit account)
+        public void InsertCredit(Credit account)
         {
             using (var context = new BankContext())
             {
@@ -123,7 +123,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static void DeleteAccount(BankRegularAccount account)
+        public void DeleteAccount(BankRegularAccount account)
         {
             using (var context = new BankContext())
             {
@@ -133,7 +133,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static void DeleteDepositAccount(DepositAccount account)
+        public void DeleteDepositAccount(DepositAccount account)
         {
             using (var context = new BankContext())
             {
@@ -143,7 +143,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static void DeleteCredit(Credit account)
+        public void DeleteCredit(Credit account)
         {
             using (var context = new BankContext())
             {
@@ -153,7 +153,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static void UpdateAccount(BankRegularAccount account)
+        public void UpdateAccount(BankRegularAccount account)
         {
             using (var context = new BankContext())
             {
@@ -163,7 +163,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static void UpdateDepositAccount(DepositAccount account)
+        public void UpdateDepositAccount(DepositAccount account)
         {
             using (var context = new BankContext())
             {
@@ -173,7 +173,7 @@ namespace hw_15.Utils
             }
         }
 
-        public static void UpdateCredit(Credit account)
+        public void UpdateCredit(Credit account)
         {
             using (var context = new BankContext())
             {

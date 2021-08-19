@@ -67,9 +67,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Command\RelayCommand.cs" />
-    <Compile Include="Utils\ADO.cs" />
     <Compile Include="Utils\BankContext.cs" />
     <Compile Include="Utils\EF.cs" />
+    <Compile Include="Utils\IDB.cs" />
     <Compile Include="ViewModel\AccountAddViewModel.cs" />
     <Compile Include="ViewModel\AccountEditViewModel.cs" />
     <Compile Include="ViewModel\AccountTransferViewModel.cs" />
