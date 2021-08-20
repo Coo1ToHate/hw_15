@@ -38,7 +38,7 @@ namespace hw_15.ViewModel
         {
             eF = new EF();
             Departments = eF.GetAllDepartments();
-            SelectedDepartament = Departments.First();
+            SelectedDepartament = Departments.FirstOrDefault();
             BankAccount.Notify += AccountActionsOnNotify;
             BankAccount.Notify += AccountActionsLogging;
         }
@@ -74,7 +74,7 @@ namespace hw_15.ViewModel
             {
                 selectedDepartament = value;
                 ClientsInDepartment = eF.GetClientsInDepartment(SelectedDepartament);
-                SelectedClient = ClientsInDepartment.First();
+                SelectedClient = ClientsInDepartment.FirstOrDefault();
                 OnPropertyChanged();
             }
         }
@@ -270,7 +270,7 @@ namespace hw_15.ViewModel
                            {
                                eF.DeleteClient(SelectedClient);
                                ClientsInDepartment = eF.GetClientsInDepartment(SelectedDepartament);
-                               SelectedClient = ClientsInDepartment.First();
+                               SelectedClient = ClientsInDepartment.FirstOrDefault();
                            },
                            obj => SelectedClient != null));
             }
