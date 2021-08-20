@@ -73,8 +73,11 @@ namespace hw_15.ViewModel
             set
             {
                 selectedDepartament = value;
-                ClientsInDepartment = eF.GetClientsInDepartment(SelectedDepartament);
-                SelectedClient = ClientsInDepartment.FirstOrDefault();
+                if (SelectedDepartament != null)
+                {
+                    ClientsInDepartment = eF.GetClientsInDepartment(SelectedDepartament);
+                    SelectedClient = ClientsInDepartment.FirstOrDefault();
+                }
                 OnPropertyChanged();
             }
         }
