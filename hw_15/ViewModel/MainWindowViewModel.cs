@@ -188,6 +188,7 @@ namespace hw_15.ViewModel
             set => selectedCredit = value;
         }
 
+        private RelayCommand addDepartmentCommand;
         private RelayCommand addClientCommand;
         private RelayCommand editClientCommand;
         private RelayCommand delClientCommand;
@@ -206,6 +207,30 @@ namespace hw_15.ViewModel
         private RelayCommand plusMonthCommand;
         private RelayCommand resetMonthCommand;
 
+        public RelayCommand AddDepartmentCommand
+        {
+            get => addDepartmentCommand ??
+                   (addDepartmentCommand = new RelayCommand(obj =>
+                   {
+                       BankDepartament newDepartament = new BankDepartament();
+
+                       DepartmentAddWindow departmentWindow = new DepartmentAddWindow
+                       {
+                           DataContext = new DepartmentAddViewModel(newDepartament),
+                           Owner = obj as Window,
+                           WindowStartupLocation = WindowStartupLocation.CenterOwner
+                       };
+
+                       departmentWindow.ShowDialog();
+
+                       if (departmentWindow.DialogResult.Value)
+                       {
+                           eF.InsertDepartment(newDepartament);
+                           Departments = eF.GetAllDepartments();
+                           SelectedDepartament = newDepartament;
+                       }
+                   }));
+        }
 
         public RelayCommand AddClientCommand
         {
@@ -430,26 +455,29 @@ namespace hw_15.ViewModel
 
         public RelayCommand EditCreditCommand
         {
-            get { return editCreditCommand ??
-                         (editCreditCommand = new RelayCommand(obj =>
-                             {
-                                 AccountEditWindow accountEditWindow = new AccountEditWindow()
-                                 {
-                                     DataContext = new AccountEditViewModel(SelectedClient, SelectedCredit)
-                                 };
+            get
+            {
+                return editCreditCommand ??
+                       (editCreditCommand = new RelayCommand(obj =>
+                           {
+                               AccountEditWindow accountEditWindow = new AccountEditWindow()
+                               {
+                                   DataContext = new AccountEditViewModel(SelectedClient, SelectedCredit)
+                               };
 
-                                 accountEditWindow.Owner = obj as Window;
-                                 accountEditWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                                 accountEditWindow.ShowDialog();
+                               accountEditWindow.Owner = obj as Window;
+                               accountEditWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                               accountEditWindow.ShowDialog();
 
-                                 if (accountEditWindow.DialogResult.Value)
-                                 {
-                                     ClientBankAccounts = eF.GetAccountsClients(selectedClient);
-                                     ClientBankDepositAccounts = eF.GetDepositAccountsClients(selectedClient);
-                                     ClientCredits = eF.GetCreditsClients(selectedClient);
-                                 }
-                             },
-                             obj => SelectedCredit != null)); }
+                               if (accountEditWindow.DialogResult.Value)
+                               {
+                                   ClientBankAccounts = eF.GetAccountsClients(selectedClient);
+                                   ClientBankDepositAccounts = eF.GetDepositAccountsClients(selectedClient);
+                                   ClientCredits = eF.GetCreditsClients(selectedClient);
+                               }
+                           },
+                           obj => SelectedCredit != null));
+            }
         }
 
         public RelayCommand DelAccountCommand
@@ -519,7 +547,8 @@ namespace hw_15.ViewModel
                            {
                                a.SetFutureAmount(MonthCount);
                            }
-                       }));
+                       },
+                           obj => ClientBankAccounts != null && ClientBankDepositAccounts != null && ClientCredits != null));
             }
         }
 
@@ -543,7 +572,8 @@ namespace hw_15.ViewModel
                            {
                                a.SetFutureAmount(MonthCount);
                            }
-                       }));
+                       },
+                           obj => ClientBankAccounts != null && ClientBankDepositAccounts != null && ClientCredits != null));
             }
         }
 
@@ -567,7 +597,8 @@ namespace hw_15.ViewModel
                            {
                                a.SetFutureAmount(MonthCount);
                            }
-                       }));
+                       },
+                           obj => ClientBankAccounts != null && ClientBankDepositAccounts != null && ClientCredits != null));
             }
         }
 

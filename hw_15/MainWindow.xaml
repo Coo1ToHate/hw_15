@@ -22,13 +22,21 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="26"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <ComboBox Grid.Column="0" Grid.Row="0" Margin="3"
                           ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartament}"
                           DisplayMemberPath="Name"/>
+                <Button Grid.Column="1" Grid.Row="0"
+                        Height="25"
+                        Background="AliceBlue"
+                        BorderBrush="CadetBlue"
+                        ToolTip="Добавить отдел"
+                        Command="{Binding AddDepartmentCommand}">
+                    <Image Source="Resources/addbutton.png" Margin="1"/>
+                </Button>
                 <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="5"/>
             </Grid>
         </StackPanel>

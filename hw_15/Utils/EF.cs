@@ -17,6 +17,12 @@ namespace hw_15.Utils
 
         #region departament
 
+        public void InsertDepartment(BankDepartament departament)
+        {
+            _context.Departments.Add(departament);
+            _context.SaveChanges();
+        }
+
         public ObservableCollection<BankDepartament> GetAllDepartments() =>
             new ObservableCollection<BankDepartament>(_context.Departments);
 
@@ -46,8 +52,30 @@ namespace hw_15.Utils
 
         public void DeleteClient(Client client)
         {
+            var tmp = _context.BankRegularAccounts.Where(a => a.ClientId == client.Id);
+            foreach (var a in tmp)
+            {
+                _context.BankRegularAccounts.Attach(a);
+                _context.BankRegularAccounts.Remove(a);
+            }
+
+            var tmp2 = _context.DepositAccounts.Where(a => a.ClientId == client.Id);
+            foreach (var a in tmp2)
+            {
+                _context.DepositAccounts.Attach(a);
+                _context.DepositAccounts.Remove(a);
+            }
+
+            var tmp3 = _context.Credits.Where(a => a.ClientId == client.Id);
+            foreach (var a in tmp3)
+            {
+                _context.Credits.Attach(a);
+                _context.Credits.Remove(a);
+            }
+
             _context.Clients.Attach(client);
             _context.Clients.Remove(client);
+
             _context.SaveChanges();
         }
 
